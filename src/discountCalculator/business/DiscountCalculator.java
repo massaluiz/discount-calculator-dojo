@@ -1,4 +1,6 @@
-package discountCalculator;
+package discountCalculator.business;
+
+import discountCalculator.enums.DiscountEnum;
 
 public class DiscountCalculator {
 
@@ -8,13 +10,12 @@ public class DiscountCalculator {
             throw new Exception("Invalid Value");
         }
 
-        if(purchaseValue <= 499.99){
-            return purchaseValue - calculatePercent(purchaseValue, 5);
-        } else if (purchaseValue >= 500.00 && purchaseValue < 1000.00) {
-            return purchaseValue - calculatePercent(purchaseValue, 10);
-        } else if (purchaseValue >= 1000.00) {
-            return  purchaseValue - calculatePercent(purchaseValue, 20);
+        for (DiscountEnum discount : DiscountEnum.values()) {
+            if(discount.giveDiscount(purchaseValue) != -1) {
+                return purchaseValue - calculatePercent(purchaseValue, discount.giveDiscount(purchaseValue));
+            }
         }
+
         return 0d;
     }
 
